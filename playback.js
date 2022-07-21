@@ -91,26 +91,6 @@ function playNotes() {
     }
 }
 
-function renderKeyboard(notes) {
-    let result = '';
-    
-    let whiteNoteCount = 0;
-    for (const note in noteSymbols) {
-        const n = noteSymbols[note];
-        const keyID = 'note-' + n;
-        
-        if (n.length === 2) {
-            // This is a white key
-            result += '<div id="' + keyID + '" class="key white"><div class="caption">' + n.substr(1) + '</div></div>';
-            whiteNoteCount++;
-        } else {
-            const offset = whiteNoteCount *4.12 -1.12;
-            result += '<div id="' + keyID.replace('#', '_') + '" class="key black" style="left:' + offset + 'em;"><div class="caption">' + n.substr(1) + '</div></div>';
-        }				
-    }
-    
-    return result;
-}
 
 function pressKey(keyID) {
     
