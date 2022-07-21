@@ -1,0 +1,118 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Make music</title>
+    <meta name="description" content="Make music">
+
+    <link rel="stylesheet" href="style2.css?v=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+	<script src="./howler.min.js"></script>
+	<script src="./playback.js"></script>
+</head>
+
+<body>
+    <div id="keyboard">
+	
+    </div>
+	<div style="clear:both">
+		<div>
+			<label for="play-chord">Chord</label>
+			<input type="checkbox" id="play-chord" />
+		</div>
+		<fieldset>
+			<legend>Chord type</legend>
+			<label>Major <input type="radio" class="chord-type" name="chord-type" value="major" checked /></label>
+			<label>Minor <input type="radio" class="chord-type" name="chord-type" value="minor" /></label>
+			<label>Diminished <input type="radio" class="chord-type" name="chord-type" value="diminished" /></label>
+			<label>Augmented <input type="radio" class="chord-type" name="chord-type" value="augmented" /></label>
+			<label>Major 7th <input type="radio" class="chord-type" name="chord-type" value="major-7" /></label>
+			<label>Minor 7th <input type="radio" class="chord-type" name="chord-type" value="minor-7" /></label>
+		</fieldset>
+		<fieldset>
+			<legend>Inversions</legend>
+			<label>First inversion (normal) <input type="radio" class="chord-inversion" name="chord-inversion" value="first" checked /></label>
+			<label>Second inversion (normal) <input type="radio" class="chord-inversion" name="chord-inversion" value="second" /></label>
+			<label>Third inversion (normal) <input type="radio" class="chord-inversion" name="chord-inversion" value="third" /></label>
+		</fieldset>
+		<fieldset>
+			<legend>Chord play</legend>
+			<label for="broken-chord">Broken Chord</label> <input type="checkbox" id="broken-chord" />
+		</div>
+	</div>
+	<div><button onclick="stop()">Stop</button></div>
+	
+	<script>
+	const playingKeys = {};
+
+	$(function() {
+		$('#keyboard').html(renderKeyboard(noteSymbols));
+		$('#keyboard .key').mousedown(function() {
+				const key = $(this);
+				const keyID = key.attr('id').substr(5).replace('_', '#');
+				if (keyID) {
+					const keys = getNotes(keyID, getChord(), getInversion());
+					const broken = $('#broken-chord').is(':checked');
+					let delay = 0;
+					for (const singleKey of keys) {
+						playKey(singleKey, delay);
+						delay+= broken ? 250 : 0;
+					}
+				}
+		});
+	});
+
+	function playKey(keyID, delay) {
+		if (!keyID) {
+			return;
+		}
+
+		setTimeout(playSingleNote, delay, keyID);
+	}
+
+	function playSingleNote(keyID) {
+		const key = $('#note-' + keyID.replace('#', '_'));
+		playingKeys[sound.play(keyID)] = keyID;
+
+		// In case this note is already playing, this is the only way to interrupt the
+		// CSS transition and start it again
+		key.removeClass('down');
+		key.addClass('notransition');
+		key[0].offsetHeight;
+		key.removeClass('notransition');
+		key.addClass('down');
+	}
+
+	function countKeysDown(keyID) {
+		let result = 0;
+		for (key of Object.keys(playingKeys)) {
+			if (playingKeys[key] === keyID) {
+				result++;
+			}
+		}
+		
+		return result;
+	}
+
+	function getChord() {
+		const chordTypeControl = $('.chord-type:checked');
+		if (chordTypeControl.length === 1) {
+			return chordTypeControl.val();
+		}
+		return '';
+	}
+
+	function getInversion() {
+		const chordInversionControl = $('.chord-inversion:checked');
+		if (chordInversionControl.length === 1) {
+			return chordInversionControl.val();
+		}
+		return '';
+	}
+		
+	</script>
+</body>
+</html>

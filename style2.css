@@ -1,0 +1,58 @@
+.key {
+	border: 1px solid black;
+	height: 16em;
+	width: 4em;
+	float: left;
+	position: relative;
+	user-select: none;
+}
+
+.key.black {
+	background-color: black;
+	height: 13em;
+	width: 3em;
+	position: absolute;
+	z-index: 100;
+}
+
+.key .caption {
+	text-align: center;
+	position: absolute;
+	bottom: 1em;
+	width: 100%;	
+	text-transform: uppercase;
+}
+
+.key.white.down {
+	animation: fade-white 2s;
+}
+
+.key.black.down {
+	animation: fade-black 2s;
+}
+
+@keyframes fade-white {
+	0% {
+		background-color: #FAA;
+	}
+	100% {
+		background-color: white;
+	}
+}
+
+@keyframes fade-black {
+	0% {
+		background-color: #FAA;
+	}
+	100% {
+		background-color: black;
+	}
+}
+
+.notransition {
+	-webkit-transition: none !important;
+  	-moz-transition: none !important;
+	-o-transition: none !important;
+  	-ms-transition: none !important;
+  	transition: none !important;
+}
