@@ -1,0 +1,36 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>A Basic HTML5 Template</title>
+    <meta name="description" content="A simple HTML5 Template for new projects.">
+    <meta name="author" content="SitePoint">
+
+    <link rel="stylesheet" href="style.css?v=1.0">
+    <script src="audiosynth.js"></script>
+    <script src="audiosynth.view.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+    <!-- <script src="script.js"></script> -->
+
+</head>
+
+<body>
+    <!-- your content here... -->
+    <div id="keyboard">
+
+    </div>
+
+    <span id="OCTAVE_LABEL"></span>
+    <span id="OCTAVE_LOWER"></span>
+    <span id="OCTAVE_UPPER"></span>
+    <span id="-_OCTAVE"></span>
+    <span id="+_OCTAVE"></span>
+    <script>
+        const a = new AudioSynthView();
+        a.draw();
+    </script>
+</body>
+</html>

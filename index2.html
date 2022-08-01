@@ -12,6 +12,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
 	<script src="./howler.min.js"></script>
 	<script src="./playback.js"></script>
+	<script src="./keyboard.js"></script>
 </head>
 
 <body>
@@ -43,9 +44,16 @@
 			<label for="broken-chord">Broken Chord</label> <input type="checkbox" id="broken-chord" />
 		</div>
 	</div>
-	<div><button onclick="stop()">Stop</button></div>
 	
 	<script>
+		const noteSymbols = ['3c', '3c#', '3d', '3d#', '3e', '3f', '3f#', '3g', '3g#', '4a', '4a#', '4b', '4c', '4c#', '4d', '4d#', '4e', '4f', '4f#', '4g', '4g#', '5a', '5a#', '5b'];
+
+		const keyboard = new Keyboard($('#keyboard'), noteSymbols);
+		$(function() {
+			$('#keyboard .key').mousedown(function() {
+				keyboard.keyDown($(this));
+			});
+		});
 	</script>
 </body>
 </html>
