@@ -1,0 +1,107 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Scale Tool</title>
+    <meta name="description" content="Make music">
+
+    <link rel="stylesheet" href="scales.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+    <script src="howler.min.js"></script>
+	<script src="./metronome.js"></script>
+	<script src="./scales.js"></script>
+	<script src="./bass_guitar.js"></script>
+    <script>
+        const fretboard = new BassFretboard();
+
+        function updateBPM() {
+            $('#bpm-text').text($('#bpm-slider').val());
+        }
+
+        function updateBPB() {
+            $('#bpb-text').text($('#bpb-slider').val());
+        }
+
+        function startMetronome() {
+            const bpb = $('#bpb-slider').val();
+            const interval = 60000/$('#bpm-slider').val();
+            metronome.start(bpb, interval);
+        }
+
+        function chordChanged() {
+            const root = getRoot();
+            const chordType = getChordType();
+            const notes = scale.getNotes(root, chordType);
+            $('#scale-notes').html(notes.join(', '));
+            drawFretboardNotes(chordType, root, 'cage');
+        }
+
+        function getRoot() {
+            return $('#scale .scale-note.selected').data('note');
+        }
+
+        function getChordType() {
+            return $('#scale-types .scale-type.selected').data('type');
+        }
+
+        function drawFretboardNotes(root, chordType, form) {
+            $('.fret').html('');
+            const notes = fretboard.getPattern(root, chordType, form);
+            for (const note of notes) {
+                fretboard.setFingerMarker(note.string, note.fretIndex, note.finger);
+            }
+        }
+
+        $(function() {
+            $('#scale-options').on('click', '.scale-note, .scale-type', function() {
+                const note = $(this);
+                note.siblings().removeClass('selected');
+                note.addClass('selected');
+                chordChanged();
+            });
+
+            $('#bass-fretboard').html(fretboard.render());
+            chordChanged();
+        });
+
+        const metronome = new Metronome();
+        const scale = new Scale();
+    </script>
+</head>
+<body>
+    <div id="scale-options">
+        <div id="scale"></div>
+        <div id="scale-types">
+            <div class="scale-type selected" data-type="major">Major</div>
+            <div class="scale-type" data-type="minor">Minor</div>
+            <div class="scale-type" data-type="pentatonic-major">Pentatonic Major</div>
+            <div class="scale-type" data-type="pentatonic-minor">Pentatonic Minor</div>
+            <div class="scale-type" data-type="blues">Blues</div>
+            <div class="scale-type" data-type="chromatic">Chromatic</div>
+        </div>
+        <div id="scale-notes">
+
+        </div>
+    </div>
+    <div id="notes-per-bar" class="slider-control">
+        <div class="slider-number">Beats per bar: <span id="bpb-text">4</span></div>
+        <input id="bpb-slider" type="range" min="1" max="16" value="4" oninput="updateBPB()"/>
+    </div>
+    <div id="bpm" class="slider-control">
+        <div class="slider-number">BPM: <span id="bpm-text">100</span></div>
+        <input id="bpm-slider" type="range" min="30" max="200" value="100" oninput="updateBPM()"></input>
+    </div>
+    <div id="bass-fretboard"></div>
+
+    <button onclick="startMetronome()">Start</button>
+    <button onclick="metronome.stop()">Stop</button>
+
+    <script>
+        $('#scale').html(scale.render());
+        $('#scale .scale-note:first-child').addClass('selected');
+    </script>
+</body>
+</html>

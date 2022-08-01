@@ -1,0 +1,134 @@
+.scale-note {
+    width: 6em;
+    border: 1px solid silver;
+    padding: 4px;
+    text-align: center;
+    cursor: pointer;
+    background-color: lightblue;
+    color: black;
+}
+
+.scale-note.selected {
+    background-color: darkblue;
+    color: white;
+}
+
+.scale-type {
+    width: 8em;
+    border: 1px solid silver;
+    padding: 4px;
+    text-align: center;
+    cursor: pointer;
+    background-color: lightgreen;
+    color: black;
+}
+
+.scale-type.selected {
+    background-color: darkgreen;
+    color: white;
+}
+
+#scale-options {
+    display: flex;
+}
+
+#scale {
+    width: 10em;
+}
+
+#scale-types {
+    width: 10em;
+}
+
+.slider-number {
+    font-weight: bold;
+}
+
+.slider-control {
+    width: 10em;
+    border: 1px solid black;
+    padding: 8px;
+}
+
+.slider-control input {
+    width: 100%;
+}
+
+.string {
+    height: 3em;
+}
+.string:nth-child(1),
+.string:nth-child(5) {
+    height: 1em;
+}
+
+#bass-fretboard {
+    border-top: 8px groove chocolate;
+    border-bottom: 8px groove chocolate;
+    width: 98em;
+    background: url('wood.png');
+}
+.string:nth-child(4) {
+    border-bottom: 6px groove gray;
+}
+
+.string:nth-child(3) {
+    border-bottom: 4px groove gray;
+}
+
+.string:nth-child(2) {
+    border-bottom: 2px groove gray;
+}
+
+.string:nth-child(1) {
+    border-bottom: 1px groove gray;
+}
+
+.fret {
+    width: 4em;
+    height: 100%;
+    border-right: 3px groove gray;
+    float: left;
+    position: relative;
+}
+
+.fret:nth-child(2) {
+    border-left: 8px groove gold;
+}
+
+.string:nth-child(1) .fret,
+.string:nth-child(5) .fret {
+        height: 1em;
+}
+
+.string:nth-child(2) .fret:nth-child(13),
+.string:nth-child(4) .fret:nth-child(13),
+.string:nth-child(3) .fret:nth-child(4),
+.string:nth-child(3) .fret:nth-child(6),
+.string:nth-child(3) .fret:nth-child(8),
+.string:nth-child(3) .fret:nth-child(10),
+.string:nth-child(3) .fret:nth-child(16),
+.string:nth-child(3) .fret:nth-child(18),
+.string:nth-child(3) .fret:nth-child(20),
+.string:nth-child(3) .fret:nth-child(22) {
+    background: url('dot.png');
+    background-size: 30%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.finger-marker {
+    width: 80%;
+    position: absolute;
+    top: 2.5em;
+    left: 10%;
+    text-align: center;
+    background: white;
+    opacity: 0.8;
+    border: 1px solid gray;
+    border-radius: 8px;
+}
+
+.string:first-child .finger-marker {
+    top: 0.5em;
+}
