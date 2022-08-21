@@ -21,6 +21,7 @@
     cursor: pointer;
     background-color: lightgreen;
     color: black;
+    text-transform: capitalize;
 }
 
 .scale-type.selected {
@@ -40,18 +41,22 @@
     width: 10em;
 }
 
+.slider-control input {
+    width: 100%;
+}
+
 .slider-number {
     font-weight: bold;
+}
+
+.slider-number input {
+    width: 3em;
 }
 
 .slider-control {
     width: 10em;
     border: 1px solid black;
     padding: 8px;
-}
-
-.slider-control input {
-    width: 100%;
 }
 
 .string {
@@ -127,8 +132,18 @@
     opacity: 0.8;
     border: 1px solid gray;
     border-radius: 8px;
+    user-select: none;
+    z-index: 100;
 }
 
 .string:first-child .finger-marker {
     top: 0.5em;
+}
+
+.finger-marker.down {
+    background-color: greenyellow;
+}
+
+.finger-marker.next-down {
+    background-color: #EFE;
 }

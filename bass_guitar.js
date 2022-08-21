@@ -1,6 +1,6 @@
 class BassFretboard {
     constructor(audioFile) {
-
+        this.scales = this.getScales();
     }
 
     render() {
@@ -28,7 +28,8 @@ class BassFretboard {
                     class="${classText}"
                     data-string="${string}"
                     data-fret="${fret}"
-                    data-note="${note}">
+                    data-note="${note}"
+                    onclick="clickFingerMarker(this)">
                     ${value}
                 </div>`;
         $(selector).html(contents);
@@ -61,35 +62,39 @@ class BassFretboard {
     }
 
     getScaleNames() {
-        const scales = this.getScales();
-        return Object.keys(scales);
+        return Object.keys(this.scales);
     }
 
     getScales() {
         return {
             'major': {
                 cage: {
+                    defaultKey: 'F',
                     offsets: 'F F# G A♭ A B♭ B C C# D E♭ E',
                     positions: 'E-1 E-3 A-0 A-1 A-3 D-0 D-2 D-3 G-0 G-2 G-3 G-5 G-7 G-9 G-10',
                     fingers: {
-                        default: '2 4 0 2 4 0 3 4 0 3 4 1 3 3 4',
+                        default: '2 4 1 2 4 1 3 4 1 3 4 1 3 3 4',
                         0: '1 3 0 1 3 0 2 3 0 2 3 1 3 3 4',
                     }
                 },
                 linear: {
+                    defaultKey: 'E',
                     offsets : 'E F F# G G# A B♭ C C# D E♭',
                     positions: 'E-0 E-2 E-4 E-5 E-7 E-9 E-11 E-12 E-14 E-16 E-17 E-19 E-21',
                     fingers: {
-                        default: '0 1 3 4 1 1 3 4 1 3 4 1 3',
+                        0: '0 1 3 4 1 1 3 4 1 3 4 1 3',
+                        default: '1 3 4 1 1 3 4 1 3 4 1 3',
                     }
                 }
             },
             'minor': {
                 cage: {
+                    defaultKey: 'E',
                     offsets: 'E F F# G A♭ A B♭ B C C# D E♭',
                     positions: 'E-0 E-2 E-3 A-0 A-2 A-3 D-0 D-2 D-4 D-5 G-2 G-4 G-5 G-7 G-9',
                     fingers: {
-                        default: '0 3 4 0 3 4 0 1 3 4 1 3 4 2 4',
+                        0: '0 3 4 0 3 4 0 1 3 4 1 3 4 2 4',
+                        default: '1 3 4 1 3 4 1 1 3 4 1 3 4 2 4',
                     }
                 },
                 linear: {
@@ -98,26 +103,32 @@ class BassFretboard {
             },
             'pentatonic-major': {
                 cage: {
+                    defaultKey: 'E',
                     offsets: 'E F F# G A♭ A B♭ B C C# D E♭',
                     positions: 'E-0 E-2 E-4 A-2 A-4 D-2 D-4 D-6 G-4 G-6 G-9',
                     fingers: {
-                        default: '0 1 3 1 3 1 1 3 1 1 4',
+                        0: '0 1 3 1 3 1 1 3 1 1 4',
+                        default: '1 1 3 1 3 1 1 3 1 1 4',
                     }
                 },
                 linear: {
+                    defaultKey: 'E',
                     offsets: 'E F F# G A♭ A B♭ B C C# D E♭',
                     positions: 'E-0 E-2 E-4 4-7 E-9 E-11',
                     fingers: {
-                        default: '0 4 1 4 1 4',
+                        0: '0 4 1 4 1 4',
+                        default: '1 4 1 4 1 4',
                     }
                 }
             },
             'pentatonic-minor': {
                 cage: {
+                    defaultKey: 'E',
                     offsets: 'E F F# G A♭ A B♭ B C C# D E♭',
                     positions: 'E-0 E-3 A-0 A-2 D-0 D-2 D-5 G-2 G-4 G-7 G-9',
                     fingers: {
                         default: '1 4 1 3 1 1 4 1 3 1 3',
+                        0: '0 2 0 1 0 1 4 1 3 1 3',
                     }
                 },
                 linear: {
@@ -126,19 +137,23 @@ class BassFretboard {
             },
             'blues': {
                 cage: {
+                    defaultKey: 'E',
                     offsets: 'E F F# G A♭ A B♭ B C C# D E♭',
-                    positions: 'E-2 A-0 A-2 A-3 A-4 D-2 D-4 G-2 G-4 G-5 G-6 G-9 G-11',
+                    positions: 'E-0 E-3 A-0 A-1 A-2 D-0 D-2 G-0 G-2 G-3 G-4 G-7 G-9',
                     fingers: {
-                        default: '3 0 1 2 3 1 3 1 1 2 3 1 3',
+                        0: '0 3 0 1 2 0 2 0 1 2 3 1 3',
+                        default: '1 4 1 2 3 1 3 1 1 2 3 1 3',
                     }
                 },
             },
             'chromatic': {
                 cage: {
-                    offsets: 'G A♭ A B♭ B C C# D E♭ F F#',
-                    positions: 'E-3 E-4 E-5 E-6 A-2 A-3 A-4 A-5 D-1 D-3 D-3 D-4 G-0 G-1 G-2 G-3',
+                    defaultKey: 'G',
+                    offsets: 'G A♭ A B♭ B C C# D E♭ E F F#',
+                    positions: 'E-3 E-4 E-5 E-6 A-2 A-3 A-4 A-5 D-1 D-2 D-3 D-4 G-0 G-1 G-2 G-3',
                     fingers: {
-                        default: '1 2 3 4 1 2 3 4 1 2 3 4 0 1 2 3',
+                        0: '1 2 3 4 1 2 3 4 1 2 3 4 0 1 2 3',
+                        default: '1 2 3 4 1 2 3 4 1 2 3 4 1 2 3 4',
                     }
                 },
             },
@@ -146,8 +161,7 @@ class BassFretboard {
     }
 
     getScale(scaleType) {
-        const scales = this.getScales();
-        return scales[scaleType];
+        return this.scales[scaleType];
     }
 
     getNoteFromFretboard(string, fret) {

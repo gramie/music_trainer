@@ -1,0 +1,63 @@
+#keyboard {
+}
+
+.key {
+  width: 4em;
+  float: left;
+  margin: 2px;
+  box-shadow: 4px 4px 4px silver;
+  text-align: center;
+  height: 12em;
+  position: relative;
+}
+
+span.key-symbol {
+  position: absolute;
+  bottom: 1em;
+}
+
+.key.black-key {
+  position: absolute;
+  background-color: black;
+  height: 6em;
+  top: 0em;
+  left: -2em;
+  width: 3em;
+}
+
+.key {
+  cursor: pointer;
+  border: 2px solid white;
+}
+
+.key span {
+  cursor: pointer;
+}
+
+.key.white-key.down {
+  animation: pulse 2s ease-out;
+}
+
+.key.black-key.down {
+  background-color: rgb(198, 79, 79);
+  animation: pulse 2s ease-out;
+}
+
+.border-none {
+  border: 4px solid white;
+  transition: border-color 1 ease-out;
+}
+
+@keyframes pulse {
+	0% {
+		background-color: red;
+	}
+
+	70% {
+    background-color: gray;
+	}
+
+	100% {
+    background-color: white;
+	}
+}

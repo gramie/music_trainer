@@ -11,7 +11,7 @@ class Scale {
             ['G', 'G A B C D E F#'],
             ['A♭', 'A♭ B♭ C D♭ E♭ F G'],
             ['A', 'A B C# D E F# G#'],
-            ['B♭', 'B♭ C D E♭ F G'],
+            ['B♭', 'B♭ C D E♭ F G, A'],
             ['B', 'B C# D# E F# G# A#'],
         ]);
 
@@ -107,5 +107,9 @@ class Scale {
         if (rootNote === '#' && note.length === 2 && note[1] === '♭') {
             return 
         }
+    }
+
+    playNote(noteID) {
+        
     }
 }
