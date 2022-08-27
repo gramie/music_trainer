@@ -108,8 +108,4 @@ class Scale {
             return 
         }
     }
-
-    playNote(noteID) {
-        
-    }
 }

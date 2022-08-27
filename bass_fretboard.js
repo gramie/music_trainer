@@ -1,8 +1,4 @@
-class BassFretboard {
-    constructor(audioFile) {
-        this.scales = this.getScales();
-    }
-
+class BassFretboard extends Fretboard {
     render() {
         let result = '';
         const strings = ['G', 'D', 'A', 'E', 'X'];
