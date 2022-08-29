@@ -42,7 +42,7 @@ class Scale {
     }
 
     isSharp(note) {
-        return note.length === 2 && note[1] === '#';
+        return note.length === 2 && note[1] === '#';gi
     }
 
     isFlat(note) {
@@ -96,20 +96,5 @@ class Scale {
                 break;
         }
         return result;
-    }
-
-    getCorrectAccidental(scale, rootIdx, offset) {
-        const rootNote = scale[rootIdx];
-        if (rootNote.length === 1) {
-            return root;
-        }
-        const note = scale[rootIdx + offset];
-        if (rootNote === '#' && note.length === 2 && note[1] === '♭') {
-            return 
-        }
-    }
-
-    playNote(noteID) {
-        
     }
 }
