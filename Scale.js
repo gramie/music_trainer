@@ -32,32 +32,34 @@ class Scale {
         console.log(type);
         switch (type) {
             case 'minor':
-                result[2] = this.key.makeFlat(result[2]);
-                result[5] = this.key.makeFlat(result[5]);
-                result[6] = this.key.makeFlat(result[6]);
+                this.makeMinor(result);
                 break;
             case 'pentatonic-major':
-                console.log('getting pentatonic major');
-                console.log(result);
                 result.splice(6, 1);
                 result.splice(3, 1);
-                console.log(result);
                 break;
             case 'pentatonic-minor':
+                this.makeMinor(result);
                 result.splice(5, 1);
                 result.splice(1, 1);
                 break;
             case 'blues':
-                result[1] = this.key.makeSharp(result[1]);
-                result[6] = this.key.makeFlat(result[6]);
-                result.splice(6, 1, this.key.makeFlat(result[6]));
-                result.splice(2, 1);
+                this.makeMinor(result);
+                result.splice(1, 1);
+                result.splice(3, 0, this.key.makeFlat(result[3]));
+                result.splice(5, 1);
                 break;
             default:
                 break;
         }
 
         return result;
+    }
+
+    makeMinor(notes) {
+        notes[2] = this.key.makeFlat(notes[2]);
+        notes[5] = this.key.makeFlat(notes[5]);
+        notes[6] = this.key.makeFlat(notes[6]);
     }
 
     getScaleOffsets(type) {
