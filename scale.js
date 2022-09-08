@@ -1,62 +1,7 @@
 class Scale {
-    constructor() {
-        this.notes = ['C', 'C#', 'D', 'E♭', 'E', 'F', 'F#', 'G', 'G#', 'A', 'B♭', 'B'];
-
-        this.scales = new Map([
-            ['C', 'C D E F G A B'],
-            ['C#', 'C# D# E# F# G# A# B#'],
-            ['D', 'D E F# G A B C#'],
-            ['E♭', 'E♭ F G A♭ B♭ C D'],
-            ['E', 'E F# G# A B C# D#'],
-            ['F', 'F G A B♭ C D E'],
-            ['F#', 'F# G# A# B C# D# E#'],
-            ['G', 'G A B C D E F#'],
-            ['A♭', 'A♭ B♭ C D♭ E♭ F G'],
-            ['A', 'A B C# D E F# G#'],
-            ['B♭', 'B♭ C D E♭ F G, A'],
-            ['B', 'B C# D# E F# G# A#'],
-        ]);
-
-    }
-
-    getAvailableKeys() {
-        return this.scales.keys;
-    }
-
-    makeSharp(root, note) {
-        const noteNames = 'ABCDEFGA';
-        if (this.isFlat(note)) {
-            return note[0];
-        }
-        if (this.isSharp(note) || note === 'B' || note === 'E') {
-            const idx = noteNames.indexOf(note[0]);
-            return noteNames[idx +1];
-        }
-        return note + '#';
-    }
-
-    makeFlat(root, note) {
-        const noteNames = 'ABCDEFGA';
-        if (this.isSharp(note)) {
-            return note[0];
-        }
-        if (this.isFlat(note) || note === 'C' || note === 'D') {
-            const idx = noteNames.indexOf(note[0], 1);
-            return noteNames[idx -1];
-        }
-        return note + '♭';
-    }
-
-    isSharp(note) {
-        return note.length === 2 && note[1] === '#';gi
-    }
-
-    isFlat(note) {
-        return note.length === 2 && note[1] === '♭';
-    }
-
-    keyUsesFlats(root) {
-        return (root === 'F' || this.isFlat(root));
+    constructor(root, type) {
+        this.key = new Key(root);
+        this.notes = this.getScaleNotes(this.key.notes, type);
     }
 
     render() {
@@ -68,44 +13,51 @@ class Scale {
         return result;
     }
 
-    getNotes(root, type) {
+    getNotes(key, type) {
         const result = [];
 
-        const doubleOctave = [...this.notes, ...this.notes];
-        const startOfOctave = doubleOctave.indexOf(root);
-        const octave = doubleOctave.slice(startOfOctave, startOfOctave + 12);
+        const keyNotes = key.notes;
+
+
         const offsets = this.getScaleOffsets(type);
         for (let offset of offsets) {
-            result.push(octave[offset]);
+            result.push(key.notes[offset]);
         }
 
-        console.log("Got notes for " + root + " " + type, result);
-        if (this.keyUsesFlats(root)) {
-            this.correctSharpsFlats(root, type, result);
-        }
         return result;
     }
 
-    /**
-     * Any flat scale should only have flats
-     * The F scale also has flats
-     * Otherwise leave any sharps alone
-     * @param {string} root 
-     * @param {Array} notesOfScale 
-     */
-    correctSharpsFlats(root, type, notesOfScale) {
-        if ((root.length === 2 && root[1] === '♭') || root === 'F' || type === 'minor') {
-            console.log("Correcting " + root + ", " + type, notesOfScale);
-            const notes = 'ABCDEFGA';
-            for (const noteIdx in notesOfScale) {
-                const note = notesOfScale[noteIdx];
-                if (note.length === 2 && note[1] === '#') {
-                    const idx = notes.indexOf(note[0]);
-                    notesOfScale[noteIdx] = notes[idx+1] + '♭';
-                }
-            }
-            console.log("Finished correcting", notesOfScale);
+    getScaleNotes(notes, type) {
+        const result = [...notes];
+        console.log(type);
+        switch (type) {
+            case 'minor':
+                result[2] = this.key.makeFlat(result[2]);
+                result[5] = this.key.makeFlat(result[5]);
+                result[6] = this.key.makeFlat(result[6]);
+                break;
+            case 'pentatonic-major':
+                console.log('getting pentatonic major');
+                console.log(result);
+                result.splice(6, 1);
+                result.splice(3, 1);
+                console.log(result);
+                break;
+            case 'pentatonic-minor':
+                result.splice(5, 1);
+                result.splice(1, 1);
+                break;
+            case 'blues':
+                result[1] = this.key.makeSharp(result[1]);
+                result[6] = this.key.makeFlat(result[6]);
+                result.splice(6, 1, this.key.makeFlat(result[6]));
+                result.splice(2, 1);
+                break;
+            default:
+                break;
         }
+
+        return result;
     }
 
     getScaleOffsets(type) {
