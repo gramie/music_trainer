@@ -1,0 +1,5 @@
+class Fingering {
+    constructor(key) {
+        
+    }
+}
