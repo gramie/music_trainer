@@ -1,0 +1,59 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Make music</title>
+    <meta name="description" content="Make music">
+
+    <link rel="stylesheet" href="style2.css?v=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+	<script src="./howler.min.js"></script>
+	<script src="./playback.js"></script>
+	<script src="./keyboard.js"></script>
+</head>
+
+<body>
+    <div id="keyboard">
+	
+    </div>
+	<div style="clear:both">
+		<div>
+			<label for="play-chord">Chord</label>
+			<input type="checkbox" id="play-chord" />
+		</div>
+		<fieldset>
+			<legend>Chord type</legend>
+			<label>Major <input type="radio" class="chord-type" name="chord-type" value="major" checked /></label>
+			<label>Minor <input type="radio" class="chord-type" name="chord-type" value="minor" /></label>
+			<label>Diminished <input type="radio" class="chord-type" name="chord-type" value="diminished" /></label>
+			<label>Augmented <input type="radio" class="chord-type" name="chord-type" value="augmented" /></label>
+			<label>Major 7th <input type="radio" class="chord-type" name="chord-type" value="major-7" /></label>
+			<label>Minor 7th <input type="radio" class="chord-type" name="chord-type" value="minor-7" /></label>
+		</fieldset>
+		<fieldset>
+			<legend>Inversions</legend>
+			<label>First inversion (normal) <input type="radio" class="chord-inversion" name="chord-inversion" value="first" checked /></label>
+			<label>Second inversion (normal) <input type="radio" class="chord-inversion" name="chord-inversion" value="second" /></label>
+			<label>Third inversion (normal) <input type="radio" class="chord-inversion" name="chord-inversion" value="third" /></label>
+		</fieldset>
+		<fieldset>
+			<legend>Chord play</legend>
+			<label for="broken-chord">Broken Chord</label> <input type="checkbox" id="broken-chord" />
+		</div>
+	</div>
+	
+	<script>
+		const noteSymbols = ['3c', '3c#', '3d', '3d#', '3e', '3f', '3f#', '3g', '3g#', '4a', '4a#', '4b', '4c', '4c#', '4d', '4d#', '4e', '4f', '4f#', '4g', '4g#', '5a', '5a#', '5b'];
+
+		const keyboard = new Keyboard($('#keyboard'), noteSymbols);
+		$(function() {
+			$('#keyboard .key').mousedown(function() {
+				keyboard.keyDown($(this));
+			});
+		});
+	</script>
+</body>
+</html>
