@@ -13,20 +13,6 @@ class Scale {
         return result;
     }
 
-    getNotes(key, type) {
-        const result = [];
-
-        const keyNotes = key.notes;
-
-
-        const offsets = this.getScaleOffsets(type);
-        for (let offset of offsets) {
-            result.push(key.notes[offset]);
-        }
-
-        return result;
-    }
-
     getScaleNotes(notes, type) {
         const result = [...notes];
         console.log(type);
@@ -62,16 +48,5 @@ class Scale {
         notes[6] = this.key.makeFlat(notes[6]);
     }
 
-    getScaleOffsets(type) {
-        const offsets = {
-            'major' : [0, 2, 4, 5, 7, 9, 11],
-            'minor' : [0, 2, 3, 5, 7, 8, 10],
-            'pentatonic-major': [0, 2, 4, 7, 9],
-            'pentatonic-minor': [0, 4, 5, 7, 11],
-            'blues': [0, 3, 5, 6, 7, 10],
-            'chromatic': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
-        }
-        return offsets[type];
-    }
 }
 
